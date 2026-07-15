@@ -290,8 +290,7 @@
     filter:grayscale(0%) brightness(0.92) contrast(1.03);
     transform:scale(1.06);
   }
-  .momento-photo-cuidado{ object-position:60% 25%; transform:scale(0.92);}
-  .momento-card:hover .momento-photo-cuidado{ transform:scale(0.96);}
+  .momento-photo-cuidado{ object-position:60% 25%;}
   .momento-card .tint{
     position:absolute; inset:0; background:var(--marino); mix-blend-mode:color; opacity:0.8;
     transition:opacity .6s ease;
@@ -607,9 +606,9 @@
       </div>
       <div class="founder-text">
         <p>At two years old I was diagnosed with bilateral hearing loss, and grew up listening with my eyes, my body, my intuition. In 2022 I had cochlear implant surgery and discovered a world far more full of sound than I'd imagined. Not long after, one night in a hotel, asleep, I didn't hear the fire alarm. That's when I understood sound doesn't always reach everyone — but alerts should. That certainty is where LevTech+ was born: architecture, technology, and empathy, so anyone can feel what's happening around them, however they hear.</p>
-        <a href="https://www.instagram.com/dafilev" target="_blank" rel="noopener" class="founder-ig-btn">
+        <a href="https://www.instagram.com/dafi.lev?igsh=MmlnOHAzYjJ2MWRy" target="_blank" rel="noopener" class="founder-ig-btn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-          Follow me on Instagram @dafilev
+          Follow me on Instagram @dafi.lev
         </a>
       </div>
     </div>
@@ -684,11 +683,25 @@
 
   alarmTabs.forEach(tab => tab.addEventListener('click', () => applyAlarm(tab)));
 
-  // Waitlist form — visual confirmation only; connect to your email service to actually capture signups
+  // Waitlist form — submits directly to Google Forms
   const waitlistForm = document.getElementById('waitlistForm');
   const waitlistMsg = document.getElementById('waitlistMsg');
+  const GOOGLE_FORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSfcbdk3WMHj8vrIREeeKJTBEoPwpfuuv62KHo-wSYBTDHXKFA/formResponse';
+  const GOOGLE_FORM_EMAIL_ENTRY = 'entry.528463419';
+
   waitlistForm.addEventListener('submit', (e) => {
     e.preventDefault();
+    const email = document.getElementById('waitlistEmail').value;
+
+    const formData = new FormData();
+    formData.append(GOOGLE_FORM_EMAIL_ENTRY, email);
+
+    fetch(GOOGLE_FORM_ACTION, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: formData
+    }).catch(() => { /* no-cors always looks like an error to fetch; submission still goes through */ });
+
     waitlistForm.hidden = true;
     waitlistMsg.hidden = false;
   });
